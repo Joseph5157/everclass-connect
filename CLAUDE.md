@@ -26,7 +26,7 @@ ruff check .                        # must be clean
 python manage.py runserver
 python manage.py run_whatsapp_worker
 ```
-Local settings need `DEBUG=1` and `FIELD_ENCRYPTION_KEY` in the environment (settings read `os.environ`; load `.env` yourself or export the variables).
+Local settings need `DEBUG=1` and `FIELD_ENCRYPTION_KEY` in the environment. Settings read `os.environ` only; `manage.py` loads `.env` automatically for local dev when the file exists (python-dotenv, never overriding variables already set). Production uses real environment variables only: never ship or rely on a `.env` file there.
 
 ## Code map
 - `whatsapp/graph.py`: Graph API client and error classification (`RETRYABLE_CODES`)

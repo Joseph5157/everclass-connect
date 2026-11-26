@@ -29,13 +29,15 @@ Meta --POST /webhooks/meta/ (signed)--> WebhookEvent row (raw) --worker--> sent/
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env            # fill in values, then: set -a; source .env; set +a
+cp .env.example .env            # fill in values (DEBUG=1, SECRET_KEY, FIELD_ENCRYPTION_KEY)
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py test whatsapp
 python manage.py runserver      # admin at http://localhost:8000/admin/
 python manage.py run_whatsapp_worker   # in a second terminal
 ```
+
+`manage.py` loads `.env` automatically for local dev when the file exists (python-dotenv). Variables already set in the environment win over `.env`. Production (Railway) has no `.env` and uses real environment variables only.
 
 To receive webhooks locally, expose port 8000 with a tunnel (for example `cloudflared tunnel --url http://localhost:8000`) and use that HTTPS URL in Meta.
 
